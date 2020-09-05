@@ -1,0 +1,121 @@
+ IDENTIFICATION DIVISION.
+            PROGRAM-ID. PARADA-USER.
+        DATA DIVISION.
+            WORKING-STORAGE SECTION.
+            
+                77 AL PIC 9.
+                77 JOG-MAQ PIC 9.
+                77 JOG-EXT PIC 9.
+                77 INICIAR PIC 9 VALUE 0.
+                77 PONT-MAQ PIC 9 VALUE 0.
+                77 PONT-EXT PIC 9 VALUE 0.
+                77 LINHA PIC X(33) VALUE "--------------------------------".
+                77 FIM PIC X(33) VALUE "-------------FIM---------------".
+                77 MAIS PIC X(33) VALUE "++++++++++++++++++++++++++++++++".
+                77 EMPATE PIC X(33) VALUE "-------------EMPATE-------------".
+                
+            
+                
+        PROCEDURE DIVISION.
+            DISPLAY "-----PEDRA PAPEL OU TESOURA-----"
+            DISPLAY LINHA
+            DISPLAY "VAMOS JOGAR?"
+            DISPLAY LINHA
+            DISPLAY "DIGITE 1 (SIM) OU 0 (NÃO)"
+            ACCEPT INICIAR
+            
+            PERFORM UNTIL INICIAR EQUAL 0
+                ACCEPT AL FROM TIME
+                COMPUTE JOG-MAQ = FUNCTION RANDOM(AL)*3 + 1
+                
+                DISPLAY LINHA
+               
+                DISPLAY "1 - PEDRA"
+                DISPLAY "2 - PAPEL"
+                DISPLAY "3 - TESOURA"
+                DISPLAY LINHA
+                DISPLAY "ESCOLHA A OPÇÃO CORRESPONDENTE A SUA JOGADA:"
+                MOVE 0 TO JOG-EXT
+                ACCEPT JOG-EXT
+                
+                IF JOG-EXT EQUAL 0 OR JOG-EXT > 3
+                    DISPLAY "JOGADA INVÁLIDA"
+                    DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)?"
+                    ACCEPT INICIAR
+                ELSE IF JOG-EXT EQUAL JOG-MAQ
+                    EVALUATE JOG-EXT                                      
+                       WHEN 1                           
+                            DISPLAY "OS DOIS JOGARAM PEDRA!!"                        
+                       WHEN 2                            
+                            DISPLAY "OS DOIS JOGARAM PAPEL!!"                        
+                       WHEN 3                           
+                             DISPLAY "OS DOIS JOGARAM TESOURA!!"
+                    END-EVALUATE
+                    
+                    DISPLAY EMPATE
+                    DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)?"
+                    ACCEPT INICIAR
+                 ELSE IF JOG-EXT EQUAL 1
+                    IF JOG-MAQ EQUAL 2
+                        ADD 1 TO PONT-MAQ
+                        DISPLAY "VOCÊ JOGOU PEDRA."
+                        DISPLAY "O COMPUTADOR JOGOU PAPEL."
+                        DISPLAY "PAPEL GANHA DE PEDRA. VOCÊ PERDEU!"
+                        DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)"
+                        ACCEPT INICIAR
+                    ELSE 
+                        ADD 1 TO PONT-EXT
+                        DISPLAY "VOCÊ JOGOU PEDRA."
+                        DISPLAY "O COMPUTADOR JOGOU TESOURA."
+                        DISPLAY "PEDRA GANHA DE TESOURA. VOCÊ GANHOU!"
+                        DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)?"
+                        ACCEPT INICIAR
+                ELSE IF JOG-EXT EQUAL 2
+                    IF JOG-MAQ EQUAL 1
+                        ADD 1 TO PONT-EXT
+                        DISPLAY "VOCÊ JOGOU PAPEL."
+                        DISPLAY "O COMPUTADOR JOGOU PEDRA."
+                        DISPLAY "PAPEL GANHA DE PEDRA. VOCÊ GANHOU!"
+                        DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)"
+                        ACCEPT INICIAR
+                    ELSE 
+                        ADD 1 TO PONT-MAQ
+                        DISPLAY "VOCÊ JOGOU PAPEL."
+                        DISPLAY "O COMPUTADOR JOGOU TESOURA."
+                        DISPLAY "TESOURA GANHA DE PAPEL. VOCÊ PERDEU!"
+                        DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)?"
+                        ACCEPT INICIAR
+                   
+                ELSE IF JOG-EXT EQUAL 3
+                    IF JOG-MAQ EQUAL 1
+                        ADD 1 TO PONT-MAQ
+                        DISPLAY "VOCÊ JOGOU TESOURA."
+                        DISPLAY "O COMPUTADOR JOGOU PEDRA."
+                        DISPLAY "PEDRA GANHA DE TESOURA. VOCÊ PERDEU!"
+                        DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)"
+                        ACCEPT INICIAR
+                ELSE 
+                    ADD 1 TO PONT-EXT
+                    DISPLAY "VOCÊ JOGOU TESOURA."
+                    DISPLAY "O COMPUTADOR JOGOU PAPEL."
+                    DISPLAY "TESOURA GANHA DE PAPEL. VOCÊ GANHOU!"
+                    DISPLAY "MAIS UMA JOGADA 1 (SIM) OU 0 (NÃO)"
+                    ACCEPT INICIAR
+            END-PERFORM.
+            
+            DISPLAY MAIS
+            
+            DISPLAY "VOCÊ FEZ " PONT-EXT " PONTO(S)."
+            DISPLAY " O COMPUTADOR FEZ " PONT-MAQ " PONTO(S)."
+            
+            IF PONT-EXT > PONT-MAQ
+                DISPLAY "PARABÉNS, VOCÊ GANHOU!!!!"
+                DISPLAY FIM
+            ELSE IF PONT-MAQ > PONT-EXT
+                DISPLAY "VOCÊ PERDEU. MAIS SORTE NA PRÓXIMA..."
+                DISPLAY FIM
+            ELSE IF PONT-MAQ EQUAL PONT-EXT
+                DISPLAY EMPATE
+                DISPLAY FIM
+        
+        STOP RUN.
