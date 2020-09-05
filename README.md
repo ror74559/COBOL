@@ -1,2 +1,2 @@
 # COBOL
-Armazenamento de algumas lógicas(de outros cursos) desenvolvidas em COBOL
+Armazenamento de algumas lógicas desenvolvidas em COBOL
